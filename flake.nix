@@ -36,13 +36,9 @@
         config = import ./config.nix {inherit pkgs;};
       in rec {
         apps = rec {
-          # nvim = mkApp {
-          #   drv = packages.nvim;
-          #   exePath = "/bin/nvim";
-          # };
-          nvim = {
-            type = "app";
-            program = "${packages.default}/bin/nvim";
+          nvim = mkApp {
+            drv = packages.default;
+            exePath = "/bin/nvim";
           };
           default = nvim;
         };
@@ -50,7 +46,7 @@
         overlays.default = _super: _self: {
           inherit (lib) mkNeovim;
           inherit (pkgs) neovimPlugins;
-          nvim = packages.nvim;
+          nvim = packages.default;
         };
 
         packages = rec {
@@ -59,7 +55,7 @@
         };
 
         devShells.default = pkgs.mkShell {
-          packages = [packages.nvim];
+          packages = [packages.default];
         };
       }
     );
