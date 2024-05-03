@@ -37,7 +37,7 @@
       in rec {
         apps = rec {
           nvim = mkApp {
-            drv = packages.default;
+            drv = packages.nvim;
             exePath = "/bin/nvim";
           };
           default = nvim;
@@ -46,7 +46,7 @@
         overlays.default = _super: _self: {
           inherit (lib) mkNeovim;
           inherit (pkgs) neovimPlugins;
-          nvim = packages.default;
+          nvim = packages.nvim;
         };
 
         packages = rec {
