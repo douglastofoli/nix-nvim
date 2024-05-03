@@ -43,6 +43,12 @@
           default = nvim;
         };
 
+        overlays.default = _super: _self: {
+          inherit (lib) mkNeovim;
+          inherit (pkgs) neovimPlugins;
+          nvim = packages.default;
+        };
+
         packages = rec {
           nvim = lib.mkNeovim {inherit config;};
           default = nvim;
