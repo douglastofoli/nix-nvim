@@ -51,11 +51,18 @@
 
         config = import ./config.nix {inherit pkgs;};
       in rec {
+        # apps = rec {
+        #   default = nvim;
+        #   nvim = mkApp {
+        #     drv = packages.nvim;
+        #     exePath = "/bin/nvim";
+        #   };
+        # };
         apps = rec {
           default = nvim;
-          nvim = mkApp {
-            drv = packages.default;
-            exePath = "/bin/nvim";
+          nvim = {
+            type = "app";
+            program = "${packages.default}/bin/nvim";
           };
         };
 
