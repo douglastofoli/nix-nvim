@@ -1,6 +1,6 @@
 {
-  inputs,
   pkgs,
+  inputs,
 }: let
   inherit (pkgs.lib) evalModules;
 in {
@@ -31,7 +31,7 @@ in {
       specialArgs = {inherit pkgs;};
     };
   in
-    pkgs.wrapNeovim config.nvim.package {
+    pkgs.wrapNeovim nvim.package {
       withNodeJs = true;
       withPython3 = true;
       configure = {
