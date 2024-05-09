@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "copilot": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1714703589,
+        "narHash": "sha256-hrckiYqZlUsdQu84hMzYMhC21Teu5hsAX0n3xbpsbn4=",
+        "owner": "github",
+        "repo": "copilot.vim",
+        "rev": "b603990a639bb4b8651d054ef8d5a8fe5db56e0c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "github",
+        "repo": "copilot.vim",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -34,6 +50,22 @@
         "type": "github"
       }
     },
+    "material-icons": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1713929352,
+        "narHash": "sha256-TEaaP4q3S23Y6Pkcxsic4AObFJmXd88oVxTdyyyhA2c=",
+        "owner": "DaikyXendo",
+        "repo": "nvim-material-icon",
+        "rev": "0fb0e440924e6cf2490542f91672257121026a85",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DaikyXendo",
+        "repo": "nvim-material-icon",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1714635257,
@@ -50,11 +82,31 @@
         "type": "github"
       }
     },
+    "plenary-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697031827,
+        "narHash": "sha256-zR44d9MowLG1lIbvrRaFTpO/HXKKrO6lbtZfvvTdx+o=",
+        "owner": "nvim-lua",
+        "repo": "plenary.nvim",
+        "rev": "50012918b2fc8357b87cff2a7f7f0446e47da174",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-lua",
+        "ref": "v0.1.4",
+        "repo": "plenary.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
+        "copilot": "copilot",
         "flake-utils": "flake-utils",
         "lualine": "lualine",
+        "material-icons": "material-icons",
         "nixpkgs": "nixpkgs",
+        "plenary-nvim": "plenary-nvim",
         "which-key": "which-key"
       }
     },

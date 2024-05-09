@@ -5,8 +5,24 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
+    # Plugins
+    copilot = {
+      url = "github:github/copilot.vim";
+      flake = false;
+    };
+
     lualine = {
       url = "github:nvim-lualine/lualine.nvim";
+      flake = false;
+    };
+
+    material-icons = {
+      url = "github:DaikyXendo/nvim-material-icon";
+      flake = false;
+    };
+
+    plenary-nvim = {
+      url = "github:nvim-lua/plenary.nvim/v0.1.4";
       flake = false;
     };
 
@@ -36,11 +52,11 @@
         config = import ./config.nix {inherit pkgs;};
       in rec {
         apps = rec {
+          default = nvim;
           nvim = mkApp {
             drv = packages.default;
             exePath = "/bin/nvim";
           };
-          default = nvim;
         };
 
         overlays.default = _super: _self: {
@@ -50,8 +66,8 @@
         };
 
         packages = rec {
-          nvim = lib.mkNeovim {inherit config;};
           default = nvim;
+          nvim = lib.mkNeovim {inherit config;};
         };
 
         devShells.default = pkgs.mkShell {

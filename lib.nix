@@ -22,6 +22,7 @@ in {
     else {};
 
   mkNeovim = {config}: let
+    nvim = opts.config.nvim;
     opts = evalModules {
       modules = [
         {imports = [./modules];}
@@ -29,9 +30,8 @@ in {
       ];
       specialArgs = {inherit pkgs;};
     };
-    nvim = opts.config.nvim;
   in
-    pkgs.wrapNeovim pkgs.neovim-unwrapped {
+    pkgs.wrapNeovim config.nvim.package {
       withNodeJs = true;
       withPython3 = true;
       configure = {

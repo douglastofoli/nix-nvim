@@ -1,5 +1,7 @@
-{...}: {
+{pkgs, ...}: {
   nvim = {
+    package = pkgs.neovim-unwrapped;
+
     # completion = {
     #   enable = true;
     #   buffer.enable = true;

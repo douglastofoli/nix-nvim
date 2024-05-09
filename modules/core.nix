@@ -1,9 +1,10 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
-  inherit (lib) mkOption types boolStr;
+  inherit (lib) literalExample mkOption types boolStr;
   cfg = config.nvim;
   mkMappingOption = it:
     mkOption ({
@@ -13,6 +14,13 @@
       // it);
 in {
   options.nvim = {
+    package = mkOption {
+      description = "Nvim package to use.";
+      type = types.package;
+      default = pkgs.neovim;
+      example = literalExample "pkgs.neovim";
+    };
+
     startPlugins = mkOption {
       description = "Plugins that are runned on neovim start.";
       type = types.listOf types.package;
