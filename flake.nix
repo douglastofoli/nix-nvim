@@ -11,6 +11,16 @@
       flake = false;
     };
 
+    elixir-tools = {
+      url = "github:elixir-tools/elixir-tools.nvim";
+      flake = false;
+    };
+
+    gitsigns-nvim = {
+      url = "github:lewis6991/gitsigns.nvim";
+      flake = false;
+    };
+
     lualine = {
       url = "github:nvim-lualine/lualine.nvim";
       flake = false;
@@ -18,6 +28,16 @@
 
     material-icons = {
       url = "github:DaikyXendo/nvim-material-icon";
+      flake = false;
+    };
+
+    nvim-elixir = {
+      url = "github:elixir-editors/vim-elixir";
+      flake = false;
+    };
+
+    nvim-lspconfig = {
+      url = "github:neovim/nvim-lspconfig";
       flake = false;
     };
 
@@ -33,6 +53,7 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     flake-utils,
     ...

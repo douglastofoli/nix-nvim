@@ -1,3 +1,3 @@
 {...}: {
-  imports = [./core.nix ./ui];
+  imports = [./core.nix ./lsp ./tools ./ui];
 }
