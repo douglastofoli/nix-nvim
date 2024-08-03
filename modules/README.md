@@ -1,3 +1,4 @@
+```
 modules
 ├── core.nix
 ├── default.nix
@@ -45,3 +46,4 @@ modules
 │   ├── tokyonight.nix           # folke/tokyonight.nvim
 │   ├── web-devicons.nix         # nvim-tree/nvim-web-devicons
 │   └── which-key.nix            # folke/which-key.nvim
+```
