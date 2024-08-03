@@ -370,6 +370,22 @@
         "type": "github"
       }
     },
+    "plenary": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1716230027,
+        "narHash": "sha256-5Jf2mWFVDofXBcXLbMa417mqlEPWLA+cQIZH/vNEV1g=",
+        "owner": "nvim-lua",
+        "repo": "plenary.nvim",
+        "rev": "a3e3bc82a3f95c5ed0d7201546d5d2c19b20d683",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-lua",
+        "repo": "plenary.nvim",
+        "type": "github"
+      }
+    },
     "project": {
       "flake": false,
       "locked": {
@@ -411,6 +427,7 @@
         "nvim-cmp": "nvim-cmp",
         "nvim-lspconfig": "nvim-lspconfig",
         "nvim-tree": "nvim-tree",
+        "plenary": "plenary",
         "project": "project",
         "telescope": "telescope",
         "telescope-fzf": "telescope-fzf",

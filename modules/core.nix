@@ -1,9 +1,9 @@
 {
-  lib,
   config,
+  lib,
   ...
 }: let
-  inherit (lib) mkOption types boolStr;
+  inherit (lib) boolStr mkOption types;
   cfg = config.nvim;
   mkMappingOption = it:
     mkOption ({
@@ -14,6 +14,7 @@
 in {
   options.nvim = {
     package = mkOption {
+      description = "Defines the neovim package";
       type = types.package;
     };
 
@@ -82,7 +83,6 @@ in {
     };
 
     # Augroups and autocmds
-
     augroups = mkOption {
       default = [];
       type = types.listOf (types.submodule ({...}: {

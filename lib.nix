@@ -49,7 +49,7 @@ in {
     inherit (pkgs.lib.attrsets) attrByPath;
     inherit (builtins) attrNames getAttr listToAttrs filter;
     inherit (self.vimUtils) buildVimPlugin;
-    isPlugin = name: name != "nixpkgs" && name != "flake-utils";
+    isPlugin = n: n != "nixpkgs" && n != "flake-utils";
     plugins = filter isPlugin (attrNames inputs);
     buildPlugin = name:
       buildVimPlugin {

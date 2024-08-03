@@ -107,6 +107,11 @@
       flake = false;
     };
 
+    plenary = {
+      url = "github:nvim-lua/plenary.nvim";
+      flake = false;
+    };
+
     # UI
     alpha-nvim = {
       url = "github:goolord/alpha-nvim";

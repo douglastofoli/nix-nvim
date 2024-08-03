@@ -1,3 +1,3 @@
 {...}: {
-  imports = [./core.nix ./tools ./ui];
+  imports = [./core.nix ./config ./tools ./ui];
 }
