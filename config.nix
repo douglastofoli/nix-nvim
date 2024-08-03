@@ -2,17 +2,8 @@
   nvim = {
     package = pkgs.neovim-unwrapped;
 
-    lsp = {
-      enable = true;
-      lang = {
-        elixir.enable = true;
-      };
-    };
-
     tools = {
-      git = {
-        enable = true;
-      };
+      gitsigns.enable = true;
     };
 
     ui = {

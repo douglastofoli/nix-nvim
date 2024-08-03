@@ -5,10 +5,10 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf types;
-  cfg = config.nvim.tools.git;
+  cfg = config.nvim.tools.gitsigns;
 in {
   options.nvim.tools = {
-    git = {
+    gitsigns = {
       enable = mkEnableOption {
         description = "Enable GitSigns plugin.";
         type = types.bool;
@@ -18,7 +18,7 @@ in {
   };
 
   config.nvim = mkIf cfg.enable {
-    startPlugins = with pkgs.neovimPlugins; [gitsigns-nvim];
+    startPlugins = with pkgs.neovimPlugins; [gitsigns];
 
     nnoremap = {
       "<leader>hs" = ":Gitsigns stage_hunk<CR>";
