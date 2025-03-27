@@ -7,7 +7,7 @@
     # Opção para pacotes extras que podem ser necessários
     extraPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      default = [];
+      default = [ ];
       description = "Extra packages to install alongside neovim";
     };
 
