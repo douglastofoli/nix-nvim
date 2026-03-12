@@ -15,10 +15,10 @@ in
         cfg.pluginNames;
 
       runtimeDeps = map (name: getAttr name pkgs) cfg.extraPackageNames;
+      extraPath = lib.makeBinPath (runtimeDeps ++ cfg.extraPackages);
 
-      nix-nvim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
+      nix-nvim-base = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
         plugins = plugins ++ cfg.plugins;
-        runtimeDeps = runtimeDeps ++ cfg.extraPackages;
 
         luaRcContent = cfg.extraLua;
         neovimRcContent = cfg.extraVim;
@@ -30,6 +30,27 @@ in
         withPython3 = cfg.withPython3;
         withRuby = cfg.withRuby;
       };
+
+      nix-nvim = pkgs.runCommand "nix-nvim-${cfg.packageName}" {
+        buildInputs = [ pkgs.makeWrapper ];
+        inherit extraPath;
+        passthru = nix-nvim-base.passthru or { };
+      } ''
+        mkdir -p $out
+        for x in ${nix-nvim-base}/*; do
+          ln -s "$x" "$out/$(basename "$x")"
+        done
+        rm -rf $out/bin
+        mkdir -p $out/bin
+        for f in ${nix-nvim-base}/bin/*; do
+          name=$(basename "$f")
+          if [ "$name" = "nvim" ]; then
+            makeWrapper "$f" "$out/bin/nvim" --suffix PATH : "$extraPath"
+          else
+            ln -s "$f" "$out/bin/$name"
+          fi
+        done
+      '';
     in
     mkIf cfg.enable {
       packages.${cfg.packageName} = nix-nvim;
@@ -46,7 +67,7 @@ in
       };
 
       devShells.default = pkgs.mkShell {
-        packages = [ nix-nvim ];
+        packages = [ nix-nvim ] ++ runtimeDeps ++ cfg.extraPackages;
       };
     };
 }

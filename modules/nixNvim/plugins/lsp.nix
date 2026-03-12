@@ -27,8 +27,15 @@
         root_markers = { "flake.nix", ".git" },
       })
 
+      vim.lsp.config('expert', {
+        cmd = { 'expert', '--stdio' },
+        root_markers = { 'mix.exs', '.git' },
+        filetypes = { 'elixir', 'eelixir', 'heex' },
+      })
+
       vim.lsp.enable("lua_ls")
       vim.lsp.enable("nil_ls")
+      vim.lsp.enable("expert")
 
       vim.keymap.set("n", "gd", vim.lsp.buf.definition)
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
