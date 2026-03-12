@@ -5,21 +5,20 @@ in
 {
   perSystem = { pkgs, ... }:
     let
-      cfg = config.nixNvim;
+      cfg = config.flake.nixNvim;
 
-      plugins =
-        builtins.map
-          (name:
-            if name == "nvim-treesitter" then
-              pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-            else
-              getAttr name pkgs.vimPlugins)
-          cfg.pluginNames;
+      plugins = map (name:
+        if name == "nvim-treesitter" then
+          pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+        else
+          getAttr name pkgs.vimPlugins)
+        cfg.pluginNames;
 
-      runtimeDeps = builtins.map (name: getAttr name pkgs) cfg.extraPackageNames;
+      runtimeDeps = map (name: getAttr name pkgs) cfg.extraPackageNames;
 
       nix-nvim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
-        inherit plugins runtimeDeps;
+        plugins = plugins ++ cfg.plugins;
+        runtimeDeps = runtimeDeps ++ cfg.extraPackages;
 
         luaRcContent = cfg.extraLua;
         neovimRcContent = cfg.extraVim;
@@ -44,6 +43,10 @@ in
       apps.${cfg.packageName} = {
         type = "app";
         program = "${nix-nvim}/bin/nvim";
+      };
+
+      devShells.default = pkgs.mkShell {
+        packages = [ nix-nvim ];
       };
     };
 }
