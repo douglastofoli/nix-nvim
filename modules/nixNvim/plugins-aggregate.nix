@@ -3,14 +3,15 @@
 # Packages are resolved in package.nix (perSystem) with pkgs.
 { lib, config, ... }:
 let
-  inherit (lib) concatLists concatStringsSep attrValues;
+  inherit (lib) concatLists concatStringsSep attrValues filter;
   pluginConfigs = config.flake.nixNvimModules.plugins or { };
+  enabledPlugins = filter (p: p.enable or true) (attrValues pluginConfigs);
 in
 {
   config = {
-    flake.nixNvim.pluginNames = concatLists (map (p: p.pluginNames or [ ]) (attrValues pluginConfigs));
-    flake.nixNvim.extraPackageNames = concatLists (map (p: p.extraPackageNames or [ ]) (attrValues pluginConfigs));
-    flake.nixNvim.extraLua = concatStringsSep "\n" (map (p: p.extraLua or "") (attrValues pluginConfigs));
-    flake.nixNvim.extraVim = concatStringsSep "\n" (map (p: p.extraVim or "") (attrValues pluginConfigs));
+    flake.nixNvim.pluginNames = concatLists (map (p: p.pluginNames or [ ]) enabledPlugins);
+    flake.nixNvim.extraPackageNames = concatLists (map (p: p.extraPackageNames or [ ]) enabledPlugins);
+    flake.nixNvim.extraLua = concatStringsSep "\n" (map (p: p.extraLua or "") enabledPlugins);
+    flake.nixNvim.extraVim = concatStringsSep "\n" (map (p: p.extraVim or "") enabledPlugins);
   };
 }

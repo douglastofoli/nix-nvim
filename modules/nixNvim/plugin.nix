@@ -5,6 +5,11 @@
 {
   flake.nixNvimModules.plugin = {
     options = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to include this plugin in the nixNvim build.";
+      };
       pluginNames = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [ ];

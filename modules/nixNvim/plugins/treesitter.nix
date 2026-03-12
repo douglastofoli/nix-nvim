@@ -3,6 +3,8 @@
   flake.nixNvimModules.plugins.treesitter = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
+    enable = true;
+
     # Special: nvim-treesitter uses withAllGrammars in package.nix
     pluginNames = [ "nvim-treesitter" ];
 
