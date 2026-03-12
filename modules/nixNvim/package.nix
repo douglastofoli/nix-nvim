@@ -20,7 +20,7 @@ in
       nix-nvim-base = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
         plugins = plugins ++ cfg.plugins;
 
-        luaRcContent = cfg.extraLua;
+        luaRcContent = cfg.baseLua + "\n" + cfg.extraLua;
         neovimRcContent = cfg.extraVim;
 
         viAlias = cfg.viAlias;

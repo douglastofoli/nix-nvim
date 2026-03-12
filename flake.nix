@@ -11,7 +11,13 @@
     import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = inputs@{ self, flake-parts, import-tree, ... }:
+  outputs =
+    inputs@{
+      self,
+      flake-parts,
+      import-tree,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } (
       import-tree ./modules
       // {

@@ -47,9 +47,16 @@ in
           description = "Extra package names (e.g. lua-language-server) resolved via pkgs.";
         };
 
+        baseLua = mkOption {
+          type = types.lines;
+          default = "";
+          description = "Lua run first (leader, timeout, etc.). Set by base.nix.";
+        };
+
         extraLua = mkOption {
           type = types.lines;
           default = "";
+          description = "Lua after base (baseLua + plugins). Set by plugins-aggregate.";
         };
 
         extraVim = mkOption {

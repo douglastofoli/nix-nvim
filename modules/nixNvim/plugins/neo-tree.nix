@@ -59,13 +59,6 @@
           },
         },
       })
-
-      -- Atalhos globais
-      vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle filesystem left reveal<cr>", { desc = "Neo-tree: toggle filesystem" })
-      vim.keymap.set("n", "<leader>E", "<cmd>Neotree focus filesystem left<cr>", { desc = "Neo-tree: focus filesystem" })
-      vim.keymap.set("n", "<leader>b", "<cmd>Neotree toggle buffers right<cr>", { desc = "Neo-tree: toggle buffers" })
-      vim.keymap.set("n", "<leader>s", "<cmd>Neotree float git_status<cr>", { desc = "Neo-tree: git status" })
-      vim.keymap.set("n", "<leader>ge", "<cmd>Neotree reveal<cr>", { desc = "Neo-tree: reveal current file" })
     '';
   };
 }
