@@ -7,7 +7,7 @@
     pluginNames = [ "nvim-treesitter" ];
 
     extraLua = ''
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter").setup({
         highlight = { enable = true },
         indent = { enable = true },
       })
