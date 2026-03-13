@@ -34,20 +34,21 @@
           preset = "default",
 
           ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-          ["<C-e>"] = { "hide", "fallback" },
-          ["<CR>"] = { "accept", "fallback" },
-
-          ["<Tab>"] = {
+          
+          ["<C-j>"] = {
             "select_next",
             "snippet_forward",
             "fallback",
           },
 
-          ["<S-Tab>"] = {
+          ["<C-k>"] = {
             "select_prev",
             "snippet_backward",
             "fallback",
           },
+          
+          ["<C-y>"] = { "accept", "fallback" },
+          ["<C-e>"] = { "hide", "fallback" },
         },
 
         sources = {
