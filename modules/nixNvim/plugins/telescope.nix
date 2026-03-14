@@ -10,6 +10,11 @@
       "telescope-nvim"
     ];
 
+    extraPackageNames = [
+      "fd"
+      "ripgrep"
+    ];
+
     extraLua = ''
       require("telescope").setup({})
     '';

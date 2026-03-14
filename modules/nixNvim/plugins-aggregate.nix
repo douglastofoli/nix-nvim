@@ -3,7 +3,12 @@
 # Packages are resolved in package.nix (perSystem) with pkgs.
 { lib, config, ... }:
 let
-  inherit (lib) concatLists concatStringsSep attrValues filter;
+  inherit (lib)
+    concatLists
+    concatStringsSep
+    attrValues
+    filter
+    ;
   pluginConfigs = config.flake.nixNvimModules.plugins or { };
   enabledPlugins = filter (p: p.enable or true) (attrValues pluginConfigs);
 in

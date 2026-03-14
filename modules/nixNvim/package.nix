@@ -3,16 +3,18 @@ let
   inherit (lib) mkIf getAttr;
 in
 {
-  perSystem = { pkgs, ... }:
+  perSystem =
+    { pkgs, ... }:
     let
       cfg = config.flake.nixNvim;
 
-      plugins = map (name:
+      plugins = map (
+        name:
         if name == "nvim-treesitter" then
           pkgs.vimPlugins.nvim-treesitter.withAllGrammars
         else
-          getAttr name pkgs.vimPlugins)
-        cfg.pluginNames;
+          getAttr name pkgs.vimPlugins
+      ) cfg.pluginNames;
 
       runtimeDeps = map (name: getAttr name pkgs) cfg.extraPackageNames;
       extraPath = lib.makeBinPath (runtimeDeps ++ cfg.extraPackages);
@@ -31,26 +33,29 @@ in
         withRuby = cfg.withRuby;
       };
 
-      nix-nvim = pkgs.runCommand "nix-nvim-${cfg.packageName}" {
-        buildInputs = [ pkgs.makeWrapper ];
-        inherit extraPath;
-        passthru = nix-nvim-base.passthru or { };
-      } ''
-        mkdir -p $out
-        for x in ${nix-nvim-base}/*; do
-          ln -s "$x" "$out/$(basename "$x")"
-        done
-        rm -rf $out/bin
-        mkdir -p $out/bin
-        for f in ${nix-nvim-base}/bin/*; do
-          name=$(basename "$f")
-          if [ "$name" = "nvim" ]; then
-            makeWrapper "$f" "$out/bin/nvim" --suffix PATH : "$extraPath"
-          else
-            ln -s "$f" "$out/bin/$name"
-          fi
-        done
-      '';
+      nix-nvim =
+        pkgs.runCommand "nix-nvim-${cfg.packageName}"
+          {
+            buildInputs = [ pkgs.makeWrapper ];
+            inherit extraPath;
+            passthru = nix-nvim-base.passthru or { };
+          }
+          ''
+            mkdir -p $out
+            for x in ${nix-nvim-base}/*; do
+              ln -s "$x" "$out/$(basename "$x")"
+            done
+            rm -rf $out/bin
+            mkdir -p $out/bin
+            for f in ${nix-nvim-base}/bin/*; do
+              name=$(basename "$f")
+              if [ "$name" = "nvim" ]; then
+                makeWrapper "$f" "$out/bin/nvim" --suffix PATH : "$extraPath"
+              else
+                ln -s "$f" "$out/bin/$name"
+              fi
+            done
+          '';
     in
     mkIf cfg.enable {
       packages.${cfg.packageName} = nix-nvim;
