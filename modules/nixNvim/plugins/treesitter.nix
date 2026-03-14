@@ -6,12 +6,18 @@
     enable = true;
 
     # Special: nvim-treesitter uses withAllGrammars in package.nix
-    pluginNames = [ "nvim-treesitter" ];
+    pluginNames = [ "nvim-treesitter" "nvim-treesitter-context" ];
 
     extraLua = ''
-      require("nvim-treesitter").setup({
+      require("nvim-treesitter.configs").setup({
         highlight = { enable = true },
         indent = { enable = true },
+      })
+
+      require("treesitter-context").setup({
+        enable = true,
+        throttle = true,
+        max_lines = 0,
       })
     '';
   };
