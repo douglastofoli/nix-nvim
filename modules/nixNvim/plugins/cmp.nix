@@ -8,9 +8,13 @@
     pluginNames = [
       "blink-cmp"
       "luasnip"
+      "friendly-snippets"
     ];
 
     extraLua = ''
+      -- Luasnip: load friendly-snippets (VSCode-style) lazily
+      require("luasnip.loaders.from_vscode").lazy_load()
+
       require("blink.cmp").setup({
         snippets = {
           preset = "luasnip",
