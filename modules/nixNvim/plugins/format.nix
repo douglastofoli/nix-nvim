@@ -11,7 +11,7 @@
 
     extraPackageNames = [
       "stylua"
-      "nixfmt-rfc-style"
+      "nixfmt"
     ];
 
     extraLua = ''
