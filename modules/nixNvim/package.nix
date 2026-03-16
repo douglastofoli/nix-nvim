@@ -52,7 +52,7 @@ in
       };
 
       nix-nvim =
-        pkgs.runCommand "nix-nvim-${cfg.packageName}"
+        pkgs.runCommand cfg.packageName
           {
             buildInputs = [ pkgs.makeWrapper ];
             inherit extraPath;

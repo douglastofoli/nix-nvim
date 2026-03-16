@@ -21,7 +21,7 @@ in
 
         packageName = mkOption {
           type = types.str;
-          default = "nix-nvim";
+          default = "neovim";
         };
 
         plugins = mkOption {
