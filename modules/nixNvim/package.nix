@@ -4,11 +4,18 @@ let
 in
 {
   perSystem =
-    { pkgs, system, inputs', ... }:
+    {
+      pkgs,
+      system,
+      inputs',
+      ...
+    }:
     let
       cfg = config.flake.nixNvim;
-      pkgsStable = inputs'.nixpkgs-stable.legacyPackages or (throw "nixpkgs-stable input required for nvim-treesitter");
-      
+      pkgsStable =
+        inputs'.nixpkgs-stable.legacyPackages
+          or (throw "nixpkgs-stable input required for nvim-treesitter");
+
       plugins = map (
         name:
         if name == "nvim-treesitter" then

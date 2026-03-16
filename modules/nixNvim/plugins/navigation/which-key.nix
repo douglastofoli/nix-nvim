@@ -7,6 +7,367 @@
 
     pluginNames = [ "which-key-nvim" ];
 
+    keymaps = {
+      whichKeyGroups = [
+        {
+          prefix = "<leader>b";
+          group = "buffers";
+        }
+        {
+          prefix = "<leader>c";
+          group = "code";
+        }
+        {
+          prefix = "<leader>f";
+          group = "files";
+        }
+        {
+          prefix = "<leader>g";
+          group = "git";
+        }
+        {
+          prefix = "<leader>p";
+          group = "projects";
+        }
+        {
+          prefix = "<leader>s";
+          group = "search";
+        }
+        {
+          prefix = "<leader>t";
+          group = "toggles";
+        }
+        {
+          prefix = "<leader>w";
+          group = "windows";
+        }
+      ];
+
+      nnoremap = [
+        # Files
+        {
+          lhs = "<leader>ff";
+          rhs = "<cmd>Telescope find_files<cr>";
+          opts = {
+            desc = "Find file";
+          };
+        }
+        {
+          lhs = "<leader>fr";
+          rhs = "<cmd>Telescope oldfiles<cr>";
+          opts = {
+            desc = "Recent files";
+          };
+        }
+        {
+          lhs = "<leader>fe";
+          rhs = "<cmd>Neotree toggle filesystem left reveal<cr>";
+          opts = {
+            desc = "File explorer";
+          };
+        }
+        {
+          lhs = "<leader>fw";
+          rhs = "<cmd>w<cr>";
+          opts = {
+            desc = "Save buffer";
+          };
+        }
+        {
+          lhs = "<leader>fE";
+          rhs = "<cmd>Neotree focus filesystem left<cr>";
+          opts = {
+            desc = "Focus file explorer";
+          };
+        }
+
+        # Git (g = group; gitsigns: n/p hunk nav, h preview, S stage, u undo, b blame, d diff, R reset)
+        {
+          lhs = "<leader>gs";
+          rhs = "<cmd>Neotree float git_status<cr>";
+          opts = {
+            desc = "Git status";
+          };
+        }
+        {
+          lhs = "<leader>ge";
+          rhs = "<cmd>Neotree reveal<cr>";
+          opts = {
+            desc = "Reveal in tree";
+          };
+        }
+        {
+          lhs = "<leader>gn";
+          rhsLua = "function() require('gitsigns').next_hunk() end";
+          opts = {
+            desc = "Next hunk";
+          };
+        }
+        {
+          lhs = "<leader>gp";
+          rhsLua = "function() require('gitsigns').prev_hunk() end";
+          opts = {
+            desc = "Prev hunk";
+          };
+        }
+        {
+          lhs = "<leader>gh";
+          rhsLua = "function() require('gitsigns').preview_hunk_inline() end";
+          opts = {
+            desc = "Preview hunk";
+          };
+        }
+        {
+          lhs = "<leader>gS";
+          rhsLua = "function() require('gitsigns').stage_hunk() end";
+          opts = {
+            desc = "Stage hunk";
+          };
+        }
+        {
+          lhs = "<leader>gu";
+          rhsLua = "function() require('gitsigns').undo_stage_hunk() end";
+          opts = {
+            desc = "Undo stage hunk";
+          };
+        }
+        {
+          lhs = "<leader>gb";
+          rhsLua = "function() require('gitsigns').toggle_current_line_blame() end";
+          opts = {
+            desc = "Blame line";
+          };
+        }
+        {
+          lhs = "<leader>gd";
+          rhsLua = "function() require('gitsigns').diffthis() end";
+          opts = {
+            desc = "Diff this file";
+          };
+        }
+        {
+          lhs = "<leader>gR";
+          rhsLua = "function() require('gitsigns').reset_hunk() end";
+          opts = {
+            desc = "Reset hunk";
+          };
+        }
+
+        # Search
+        {
+          lhs = "<leader>sf";
+          rhs = "<cmd>Telescope find_files<cr>";
+          opts = {
+            desc = "Find files";
+          };
+        }
+        {
+          lhs = "<leader>sg";
+          rhs = "<cmd>Telescope live_grep<cr>";
+          opts = {
+            desc = "Live grep";
+          };
+        }
+        {
+          lhs = "<leader>sb";
+          rhs = "<cmd>Telescope buffers<cr>";
+          opts = {
+            desc = "Buffers";
+          };
+        }
+        {
+          lhs = "<leader>sh";
+          rhs = "<cmd>Telescope help_tags<cr>";
+          opts = {
+            desc = "Help tags";
+          };
+        }
+        {
+          lhs = "<leader>sr";
+          rhs = "<cmd>Telescope resume<cr>";
+          opts = {
+            desc = "Resume last";
+          };
+        }
+
+        # Buffers
+        {
+          lhs = "<leader>bl";
+          rhs = "<cmd>Telescope buffers<cr>";
+          opts = {
+            desc = "List buffers";
+          };
+        }
+        {
+          lhs = "<leader>bn";
+          rhs = "<cmd>bnext<cr>";
+          opts = {
+            desc = "Next buffer";
+          };
+        }
+        {
+          lhs = "<leader>bp";
+          rhs = "<cmd>bprevious<cr>";
+          opts = {
+            desc = "Previous buffer";
+          };
+        }
+        {
+          lhs = "<leader>bd";
+          rhs = "<cmd>bdelete<cr>";
+          opts = {
+            desc = "Delete buffer";
+          };
+        }
+        {
+          lhs = "<leader>bb";
+          rhs = "<cmd>Neotree toggle buffers right<cr>";
+          opts = {
+            desc = "Buffer sidebar";
+          };
+        }
+
+        # Windows
+        {
+          lhs = "<leader>wv";
+          rhs = "<cmd>vsplit<cr>";
+          opts = {
+            desc = "Split vertical";
+          };
+        }
+        {
+          lhs = "<leader>ws";
+          rhs = "<cmd>split<cr>";
+          opts = {
+            desc = "Split horizontal";
+          };
+        }
+        {
+          lhs = "<leader>wh";
+          rhs = "<c-w>h";
+          opts = {
+            desc = "Go left";
+          };
+        }
+        {
+          lhs = "<leader>wl";
+          rhs = "<c-w>l";
+          opts = {
+            desc = "Go right";
+          };
+        }
+        {
+          lhs = "<leader>wj";
+          rhs = "<c-w>j";
+          opts = {
+            desc = "Go down";
+          };
+        }
+        {
+          lhs = "<leader>wk";
+          rhs = "<c-w>k";
+          opts = {
+            desc = "Go up";
+          };
+        }
+        {
+          lhs = "<leader>wc";
+          rhs = "<cmd>close<cr>";
+          opts = {
+            desc = "Close window";
+          };
+        }
+        {
+          lhs = "<leader>wo";
+          rhs = "<cmd>only<cr>";
+          opts = {
+            desc = "Only this window";
+          };
+        }
+
+        # Projects
+        {
+          lhs = "<leader>pf";
+          rhs = "<cmd>Telescope find_files cwd=vim.fn.getcwd()<cr>";
+          opts = {
+            desc = "Find in cwd";
+          };
+        }
+        {
+          lhs = "<leader>pr";
+          rhs = "<cmd>Telescope oldfiles<cr>";
+          opts = {
+            desc = "Recent files";
+          };
+        }
+
+        # Code / LSP
+        {
+          lhs = "<leader>cr";
+          rhsLua = "vim.lsp.buf.rename";
+          opts = {
+            desc = "Rename";
+          };
+        }
+        {
+          lhs = "<leader>ca";
+          rhsLua = "vim.lsp.buf.code_action";
+          opts = {
+            desc = "Code action";
+          };
+        }
+        {
+          lhs = "<leader>cd";
+          rhsLua = "vim.lsp.buf.definition";
+          opts = {
+            desc = "Go to definition";
+          };
+        }
+        {
+          lhs = "<leader>cD";
+          rhsLua = "vim.lsp.buf.declaration";
+          opts = {
+            desc = "Go to declaration";
+          };
+        }
+        {
+          lhs = "<leader>ci";
+          rhsLua = "vim.lsp.buf.implementation";
+          opts = {
+            desc = "Go to implementation";
+          };
+        }
+        {
+          lhs = "<leader>cR";
+          rhsLua = "vim.lsp.buf.references";
+          opts = {
+            desc = "References";
+          };
+        }
+        {
+          lhs = "<leader>ce";
+          rhsLua = "vim.diagnostic.open_float";
+          opts = {
+            desc = "Diagnostic float";
+          };
+        }
+        {
+          lhs = "<leader>cp";
+          rhsLua = "vim.diagnostic.goto_prev";
+          opts = {
+            desc = "Prev diagnostic";
+          };
+        }
+        {
+          lhs = "<leader>cn";
+          rhsLua = "vim.diagnostic.goto_next";
+          opts = {
+            desc = "Next diagnostic";
+          };
+        }
+      ];
+    };
+
     extraLua = ''
       require("which-key").setup({
         delay = 200,
@@ -14,94 +375,6 @@
         icons = { group = "", separator = " " },
         win = { border = "rounded", padding = { 1, 2 } },
       })
-
-      -- Group labels (new which-key spec)
-      require("which-key").add({
-        { "<leader>b", group = "buffers" },
-        { "<leader>c", group = "code" },
-        { "<leader>f", group = "files" },
-        { "<leader>g", group = "git" },
-        { "<leader>p", group = "projects" },
-        { "<leader>s", group = "search" },
-        { "<leader>t", group = "toggles" },
-        { "<leader>w", group = "windows" },
-      })
-
-      -- Files
-      vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find file" })
-      vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
-      vim.keymap.set("n", "<leader>fe", "<cmd>Neotree toggle filesystem left reveal<cr>", { desc = "File explorer" })
-      vim.keymap.set("n", "<leader>fE", "<cmd>Neotree focus filesystem left<cr>", { desc = "Focus file explorer" })
-      vim.keymap.set("n", "<leader>fw", "<cmd>w<cr>", { desc = "Save buffer" })
-
-      -- Git (g = group; gitsigns: n/p hunk nav, h preview, S stage, u undo, b blame, d diff, R reset)
-      vim.keymap.set("n", "<leader>gs", "<cmd>Neotree float git_status<cr>", { desc = "Git status" })
-      vim.keymap.set("n", "<leader>ge", "<cmd>Neotree reveal<cr>", { desc = "Reveal in tree" })
-      vim.keymap.set("n", "<leader>gn", function() require("gitsigns").next_hunk() end, { desc = "Next hunk" })
-      vim.keymap.set("n", "<leader>gp", function() require("gitsigns").prev_hunk() end, { desc = "Prev hunk" })
-      vim.keymap.set("n", "<leader>gh", function() require("gitsigns").preview_hunk_inline() end, { desc = "Preview hunk" })
-      vim.keymap.set("n", "<leader>gS", function() require("gitsigns").stage_hunk() end, { desc = "Stage hunk" })
-      vim.keymap.set("n", "<leader>gu", function() require("gitsigns").undo_stage_hunk() end, { desc = "Undo stage hunk" })
-      vim.keymap.set("n", "<leader>gb", function() require("gitsigns").toggle_current_line_blame() end, { desc = "Blame line" })
-      vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis() end, { desc = "Diff this file" })
-      vim.keymap.set("n", "<leader>gR", function() require("gitsigns").reset_hunk() end, { desc = "Reset hunk" })
-
-      -- Search
-      vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
-      vim.keymap.set("n", "<leader>sg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
-      vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
-      vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
-      vim.keymap.set("n", "<leader>sr", "<cmd>Telescope resume<cr>", { desc = "Resume last" })
-
-      -- Buffers
-      vim.keymap.set("n", "<leader>bl", "<cmd>Telescope buffers<cr>", { desc = "List buffers" })
-      vim.keymap.set("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
-      vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
-      vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
-      vim.keymap.set("n", "<leader>bb", "<cmd>Neotree toggle buffers right<cr>", { desc = "Buffer sidebar" })
-
-      -- Windows
-      vim.keymap.set("n", "<leader>wv", "<cmd>vsplit<cr>", { desc = "Split vertical" })
-      vim.keymap.set("n", "<leader>ws", "<cmd>split<cr>", { desc = "Split horizontal" })
-      vim.keymap.set("n", "<leader>wh", "<c-w>h", { desc = "Go left" })
-      vim.keymap.set("n", "<leader>wl", "<c-w>l", { desc = "Go right" })
-      vim.keymap.set("n", "<leader>wj", "<c-w>j", { desc = "Go down" })
-      vim.keymap.set("n", "<leader>wk", "<c-w>k", { desc = "Go up" })
-      vim.keymap.set("n", "<leader>wc", "<cmd>close<cr>", { desc = "Close window" })
-      vim.keymap.set("n", "<leader>wo", "<cmd>only<cr>", { desc = "Only this window" })
-
-      -- Code / LSP
-      vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-      vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, { desc = "Go to definition" })
-      vim.keymap.set("n", "<leader>cD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
-      vim.keymap.set("n", "<leader>ci", vim.lsp.buf.implementation, { desc = "Go to implementation" })
-      vim.keymap.set("n", "<leader>cR", vim.lsp.buf.references, { desc = "References" })
-      vim.keymap.set("n", "<leader>ce", vim.diagnostic.open_float, { desc = "Diagnostic float" })
-      vim.keymap.set("n", "<leader>cp", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-      vim.keymap.set("n", "<leader>cn", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-
-      -- Toggles
-      vim.keymap.set("n", "<leader>tn", function()
-        vim.opt.number = not vim.opt.number:get()
-      end, { desc = "Toggle line numbers" })
-      vim.keymap.set("n", "<leader>tr", function()
-        vim.opt.relativenumber = not vim.opt.relativenumber:get()
-      end, { desc = "Toggle relative numbers" })
-      vim.keymap.set("n", "<leader>td", function()
-        if vim.diagnostic.is_disabled(0) then
-          vim.diagnostic.enable(0)
-        else
-          vim.diagnostic.disable(0)
-        end
-      end, { desc = "Toggle diagnostics" })
-
-      -- Projects
-      vim.keymap.set("n", "<leader>pf", "<cmd>Telescope find_files cwd=vim.fn.getcwd()<cr>", { desc = "Find in cwd" })
-      vim.keymap.set("n", "<leader>pr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
-
-      -- Quit (no group, single key)
-      vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
     '';
   };
 }

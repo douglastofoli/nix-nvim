@@ -6,7 +6,10 @@
     enable = true;
 
     # Special: nvim-treesitter uses withAllGrammars in package.nix
-    pluginNames = [ "nvim-treesitter" "nvim-treesitter-context" ];
+    pluginNames = [
+      "nvim-treesitter"
+      "nvim-treesitter-context"
+    ];
 
     extraLua = ''
       require("nvim-treesitter.configs").setup({

@@ -1,6 +1,7 @@
 { lib, ... }:
 let
   inherit (lib) mkOption types;
+  keymapsSubmodule = (import ../../lib/keymaps-type.nix { inherit lib; }).keymapsSubmodule;
 in
 {
   # Dendritic pattern: flake.nixNvimModules.base, .plugin, .plugins.<name>
@@ -53,10 +54,29 @@ in
           description = "Lua run first (leader, timeout, etc.). Set by base.nix.";
         };
 
+        extraLuaPlugins = mkOption {
+          type = types.lines;
+          default = "";
+          internal = true;
+          description = "Lua from plugins (set by plugins-aggregate).";
+        };
+
         extraLua = mkOption {
           type = types.lines;
           default = "";
-          description = "Lua after base (baseLua + plugins). Set by plugins-aggregate.";
+          description = "Lua after base (baseLua + plugins + keymaps + autocmds). Set by keymaps.nix.";
+        };
+
+        extraLuaAutocmds = mkOption {
+          type = types.lines;
+          default = "";
+          description = "Lua for autocmds (appended last). Set by misc/autocmd.nix.";
+        };
+
+        keymaps = mkOption {
+          type = keymapsSubmodule;
+          default = { };
+          description = "Global keymaps (nnoremap, inoremap, etc.). Compatible with which-key when opts.desc is set.";
         };
 
         extraVim = mkOption {
