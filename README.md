@@ -2,6 +2,7 @@
   <picture>
     <img src="assets/logo.png" width="25%" />
   </picture>
+
   Nix Nvim
 </h2>
 
