@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.gitsigns = {
+  flake.nixNvimModules.plugins.git.gitsigns = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

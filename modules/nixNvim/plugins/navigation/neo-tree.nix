@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.neo-tree = {
+  flake.nixNvimModules.plugins.navigation.neo-tree = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

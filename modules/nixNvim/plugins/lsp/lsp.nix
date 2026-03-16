@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.lsp = {
+  flake.nixNvimModules.plugins.lsp.lsp = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.telescope = {
+  flake.nixNvimModules.plugins.navigation.telescope = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

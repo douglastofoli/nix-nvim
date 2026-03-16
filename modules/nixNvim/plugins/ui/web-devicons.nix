@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.web-devicons = {
+  flake.nixNvimModules.plugins.ui.web-devicons = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

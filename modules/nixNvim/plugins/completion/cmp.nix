@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.cmp = {
+  flake.nixNvimModules.plugins.completion.cmp = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

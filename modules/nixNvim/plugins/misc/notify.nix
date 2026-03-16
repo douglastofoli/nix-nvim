@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.notify = {
+  flake.nixNvimModules.plugins.misc.notify = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

@@ -5,11 +5,11 @@ let
   inherit (lib) optionalString;
 
   plugins = config.flake.nixNvimModules.plugins or { };
-  elixir = plugins.elixir;
-  which_key = plugins.which-key;
+  elixir = (plugins.languages or {}).elixir or { enable = false; };
+  which_key = (plugins.navigation or {})."which-key" or { enable = false; };
 in
 {
-  flake.nixNvimModules.plugins.autocmd = {
+  flake.nixNvimModules.plugins.misc.autocmd = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

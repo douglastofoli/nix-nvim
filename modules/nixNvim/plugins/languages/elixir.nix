@@ -3,7 +3,7 @@
 # Keybinds use <leader>m* for split-keyboard friendliness.
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.elixir = {
+  flake.nixNvimModules.plugins.languages.elixir = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

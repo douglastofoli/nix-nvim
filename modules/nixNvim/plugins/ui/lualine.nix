@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.lualine = {
+  flake.nixNvimModules.plugins.ui.lualine = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

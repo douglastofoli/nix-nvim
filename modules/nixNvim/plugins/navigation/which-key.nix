@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.which-key = {
+  flake.nixNvimModules.plugins.navigation.which-key = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.dracula = {
+  flake.nixNvimModules.plugins.ui.dracula = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

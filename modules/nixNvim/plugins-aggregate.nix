@@ -1,4 +1,4 @@
-# Aggregates flake.nixNvimModules.plugins.* (lsp, telescope, treesitter, etc.)
+# Aggregates flake.nixNvimModules.plugins.<category>.<name> (e.g. plugins.git.gitsigns, plugins.ui.dracula)
 # into flake.nixNvim (pluginNames, extraPackageNames, extraLua, extraVim).
 # Packages are resolved in package.nix (perSystem) with pkgs.
 { lib, config, ... }:
@@ -8,9 +8,17 @@ let
     concatStringsSep
     attrValues
     filter
+    concatMap
+    isAttrs
     ;
   pluginConfigs = config.flake.nixNvimModules.plugins or { };
-  enabledPlugins = filter (p: p.enable or true) (attrValues pluginConfigs);
+  # Flatten tree: plugins may be flat (plugins.gitsigns) or nested (plugins.ui.theme)
+  isPlugin = p: isAttrs p && p ? pluginNames;
+  flattenPlugins = attrs:
+    if isPlugin attrs then [ attrs ]
+    else if isAttrs attrs then concatMap flattenPlugins (attrValues attrs)
+    else [ ];
+  enabledPlugins = filter (p: p.enable or true) (flattenPlugins pluginConfigs);
 in
 {
   config = {

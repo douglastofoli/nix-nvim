@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.treesitter = {
+  flake.nixNvimModules.plugins.language.treesitter = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

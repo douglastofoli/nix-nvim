@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.kommentary = {
+  flake.nixNvimModules.plugins.editing.kommentary = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

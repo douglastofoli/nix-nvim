@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.autopairs = {
+  flake.nixNvimModules.plugins.editing.autopairs = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

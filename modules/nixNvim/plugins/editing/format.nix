@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.format = {
+  flake.nixNvimModules.plugins.editing.format = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;

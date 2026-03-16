@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.nixNvimModules.plugins.indent-blankline = {
+  flake.nixNvimModules.plugins.ui.indent-blankline = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
     enable = true;
