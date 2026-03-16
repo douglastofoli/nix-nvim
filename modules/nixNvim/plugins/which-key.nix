@@ -34,9 +34,17 @@
       vim.keymap.set("n", "<leader>fE", "<cmd>Neotree focus filesystem left<cr>", { desc = "Focus file explorer" })
       vim.keymap.set("n", "<leader>fw", "<cmd>w<cr>", { desc = "Save buffer" })
 
-      -- Git
+      -- Git (g = group; gitsigns: n/p hunk nav, h preview, S stage, u undo, b blame, d diff, R reset)
       vim.keymap.set("n", "<leader>gs", "<cmd>Neotree float git_status<cr>", { desc = "Git status" })
       vim.keymap.set("n", "<leader>ge", "<cmd>Neotree reveal<cr>", { desc = "Reveal in tree" })
+      vim.keymap.set("n", "<leader>gn", function() require("gitsigns").next_hunk() end, { desc = "Next hunk" })
+      vim.keymap.set("n", "<leader>gp", function() require("gitsigns").prev_hunk() end, { desc = "Prev hunk" })
+      vim.keymap.set("n", "<leader>gh", function() require("gitsigns").preview_hunk_inline() end, { desc = "Preview hunk" })
+      vim.keymap.set("n", "<leader>gS", function() require("gitsigns").stage_hunk() end, { desc = "Stage hunk" })
+      vim.keymap.set("n", "<leader>gu", function() require("gitsigns").undo_stage_hunk() end, { desc = "Undo stage hunk" })
+      vim.keymap.set("n", "<leader>gb", function() require("gitsigns").toggle_current_line_blame() end, { desc = "Blame line" })
+      vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis() end, { desc = "Diff this file" })
+      vim.keymap.set("n", "<leader>gR", function() require("gitsigns").reset_hunk() end, { desc = "Reset hunk" })
 
       -- Search
       vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
