@@ -1,9 +1,9 @@
-# nix-nvim: configurable Neovim derivation via flake.
+# neovim: configurable Neovim derivation via flake.
 # - Dendritic pattern: flake.nixNvimModules.base, .plugin, .plugins.<name>
 # - NixOS usage: nixpkgs.overlays = [ self.overlays.default ];
-# - devShell: nix develop (uses packages.nix-nvim)
+# - devShell: nix develop (uses packages.neovim)
 {
-  description = "nix-nvim";
+  description = "My Neovim configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

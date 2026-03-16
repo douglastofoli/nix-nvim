@@ -37,7 +37,7 @@ in
         + "\n"
         + (cfg.extraLuaAutocmds or "");
 
-      nix-nvim-base = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
+      neovim-base = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
         plugins = plugins ++ cfg.plugins;
 
         luaRcContent = luaRcContent;
@@ -51,21 +51,21 @@ in
         withRuby = cfg.withRuby;
       };
 
-      nix-nvim =
+      neovim =
         pkgs.runCommand cfg.packageName
           {
             buildInputs = [ pkgs.makeWrapper ];
             inherit extraPath;
-            passthru = nix-nvim-base.passthru or { };
+            passthru = neovim-base.passthru or { };
           }
           ''
             mkdir -p $out
-            for x in ${nix-nvim-base}/*; do
+            for x in ${neovim-base}/*; do
               ln -s "$x" "$out/$(basename "$x")"
             done
             rm -rf $out/bin
             mkdir -p $out/bin
-            for f in ${nix-nvim-base}/bin/*; do
+            for f in ${neovim-base}/bin/*; do
               name=$(basename "$f")
               if [ "$name" = "nvim" ]; then
                 makeWrapper "$f" "$out/bin/nvim" --suffix PATH : "$extraPath"
@@ -76,21 +76,21 @@ in
           '';
     in
     mkIf cfg.enable {
-      packages.${cfg.packageName} = nix-nvim;
-      packages.default = nix-nvim;
+      packages.${cfg.packageName} = neovim;
+      packages.default = neovim;
 
       apps.default = {
         type = "app";
-        program = "${nix-nvim}/bin/nvim";
+        program = "${neovim}/bin/nvim";
       };
 
       apps.${cfg.packageName} = {
         type = "app";
-        program = "${nix-nvim}/bin/nvim";
+        program = "${neovim}/bin/nvim";
       };
 
       devShells.default = pkgs.mkShell {
-        packages = [ nix-nvim ] ++ runtimeDeps ++ cfg.extraPackages;
+        packages = [ neovim ] ++ runtimeDeps ++ cfg.extraPackages;
       };
     };
 }
