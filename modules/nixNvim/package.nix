@@ -27,10 +27,20 @@ in
       runtimeDeps = map (name: getAttr name pkgs) cfg.extraPackageNames;
       extraPath = lib.makeBinPath (runtimeDeps ++ cfg.extraPackages);
 
+      # Init Lua order: base → plugins → keymaps → autocmds
+      luaRcContent =
+        cfg.baseLua
+        + "\n"
+        + (cfg.extraLuaPlugins or "")
+        + "\n"
+        + (cfg.extraLuaKeymaps or "")
+        + "\n"
+        + (cfg.extraLuaAutocmds or "");
+
       nix-nvim-base = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
         plugins = plugins ++ cfg.plugins;
 
-        luaRcContent = cfg.baseLua + "\n" + cfg.extraLua;
+        luaRcContent = luaRcContent;
         neovimRcContent = cfg.extraVim;
 
         viAlias = cfg.viAlias;

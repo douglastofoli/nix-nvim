@@ -1,5 +1,5 @@
 # Collects keymaps from flake.nixNvim.keymaps (global) and from each plugin's keymaps,
-# generates Lua (vim.keymap.set) and appends to extraLua in order: plugin config → keymaps → autocmds.
+# generates Lua (which-key groups + vim.keymap.set). Final init order is assembled in package.nix.
 { lib, config, ... }:
 let
   inherit (lib)
@@ -160,16 +160,10 @@ let
           })
         end
       '';
+  keymapsLua = whichKeyGroupsLua + (if whichKeyGroupsLua != "" then "\n" else "") + (concatStringsSep "\n" (map mkKeymapLua allKeymaps));
 in
 {
   config = {
-    flake.nixNvim.extraLua =
-      (config.flake.nixNvim.extraLuaPlugins or "")
-      + "\n"
-      + whichKeyGroupsLua
-      + (if whichKeyGroupsLua != "" then "\n" else "")
-      + (concatStringsSep "\n" (map mkKeymapLua allKeymaps))
-      + "\n"
-      + (config.flake.nixNvim.extraLuaAutocmds or "");
+    flake.nixNvim.extraLuaKeymaps = keymapsLua;
   };
 }

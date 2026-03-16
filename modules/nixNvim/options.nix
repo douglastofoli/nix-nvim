@@ -54,6 +54,17 @@ in
           description = "Lua run first (leader, timeout, etc.). Set by base.nix.";
         };
 
+        extraVim = mkOption {
+          type = types.lines;
+          default = "";
+        };
+
+        extraLua = mkOption {
+          type = types.lines;
+          default = "";
+          description = "Unused for init; init Lua is assembled in package.nix from baseLua, extraLuaPlugins, extraLuaKeymaps, extraLuaAutocmds.";
+        };
+
         extraLuaPlugins = mkOption {
           type = types.lines;
           default = "";
@@ -61,10 +72,11 @@ in
           description = "Lua from plugins (set by plugins-aggregate).";
         };
 
-        extraLua = mkOption {
+        extraLuaKeymaps = mkOption {
           type = types.lines;
           default = "";
-          description = "Lua after base (baseLua + plugins + keymaps + autocmds). Set by keymaps.nix.";
+          internal = true;
+          description = "Lua for which-key groups and vim.keymap.set (set by keymaps.nix).";
         };
 
         extraLuaAutocmds = mkOption {
@@ -77,11 +89,6 @@ in
           type = keymapsSubmodule;
           default = { };
           description = "Global keymaps (nnoremap, inoremap, etc.). Compatible with which-key when opts.desc is set.";
-        };
-
-        extraVim = mkOption {
-          type = types.lines;
-          default = "";
         };
 
         viAlias = mkOption {
