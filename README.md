@@ -32,6 +32,14 @@ nix run .#neovim
 nix develop -c nvim
 ```
 
+### Run Neovim from GitHub (without cloning)
+
+```bash
+nix run github:douglastofoli/nix-nvim
+# or with explicit app name
+nix run github:douglastofoli/nix-nvim#neovim
+```
+
 ### Use as overlay in NixOS
 
 Add the flake to your inputs and use the overlay:
