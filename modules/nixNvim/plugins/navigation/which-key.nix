@@ -61,7 +61,7 @@
         }
         {
           lhs = "<leader>fe";
-          rhs = "<cmd>Neotree toggle filesystem left reveal<cr>";
+          rhsLua = "function() require('oil').open() end";
           opts = {
             desc = "File explorer";
           };
@@ -75,7 +75,7 @@
         }
         {
           lhs = "<leader>fE";
-          rhs = "<cmd>Neotree focus filesystem left<cr>";
+          rhsLua = "function() require('oil').toggle_float() end";
           opts = {
             desc = "Focus file explorer";
           };
@@ -84,16 +84,16 @@
         # Git (g = group; gitsigns: n/p hunk nav, h preview, S stage, u undo, b blame, d diff, R reset)
         {
           lhs = "<leader>gs";
-          rhs = "<cmd>Neotree float git_status<cr>";
+          rhsLua = "function() require('oil').toggle_float() end";
           opts = {
-            desc = "Git status";
+            desc = "File explorer (float)";
           };
         }
         {
           lhs = "<leader>ge";
-          rhs = "<cmd>Neotree reveal<cr>";
+          rhsLua = "function() require('oil').open() end";
           opts = {
-            desc = "Reveal in tree";
+            desc = "Reveal in oil";
           };
         }
         {
@@ -221,9 +221,9 @@
         }
         {
           lhs = "<leader>bb";
-          rhs = "<cmd>Neotree toggle buffers right<cr>";
+          rhs = "<cmd>Telescope buffers<cr>";
           opts = {
-            desc = "Buffer sidebar";
+            desc = "Buffers";
           };
         }
 

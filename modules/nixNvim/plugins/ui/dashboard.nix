@@ -1,0 +1,52 @@
+{ config, ... }:
+{
+  flake.nixNvimModules.plugins.ui.dashboard = {
+    imports = [ config.flake.nixNvimModules.plugin ];
+
+    enable = true;
+
+    pluginNames = [ "alpha-nvim" ];
+
+    keymaps = {
+      nnoremap = [
+        {
+          lhs = "<leader>h";
+          rhs = "<cmd>Alpha<cr>";
+          opts = {
+            desc = "Dashboard";
+          };
+        }
+      ];
+    };
+
+    extraLua = ''
+      local alpha = require("alpha")
+      local dashboard = require("alpha.themes.dashboard")
+
+      dashboard.section.header.val = {
+        "                                                                              ",
+        "             ███                                         ███                  ",
+        "            ░░░                                         ░░░                   ",
+        " ████████   ████  █████ █████    ████████   █████ █████ ████  █████████████   ",
+        "░░███░░███ ░░███ ░░███ ░░███    ░░███░░███ ░░███ ░░███ ░░███ ░░███░░███░░███  ",
+        " ░███ ░███  ░███  ░░░█████░      ░███ ░███  ░███  ░███  ░███  ░███ ░███ ░███  ",
+        " ░███ ░███  ░███   ███░░░███     ░███ ░███  ░░███ ███   ░███  ░███ ░███ ░███  ",
+        " ████ █████ █████ █████ █████    ████ █████  ░░█████    █████ █████░███ █████ ",
+        "░░░░ ░░░░░ ░░░░░ ░░░░░ ░░░░░    ░░░░ ░░░░░    ░░░░░    ░░░░░ ░░░░░ ░░░ ░░░░░  ",
+        "                                                                              "                                                                          
+      }
+
+      dashboard.section.buttons.val = {
+        dashboard.button("f", "Find file", "<cmd>Telescope find_files<cr>"),
+        dashboard.button("r", "Recent files", "<cmd>Telescope oldfiles<cr>"),
+        dashboard.button("g", "Live grep", "<cmd>Telescope live_grep<cr>"),
+        dashboard.button("n", "New file", "<cmd>enew<cr>"),
+        dashboard.button("q", "Quit", "<cmd>qa<cr>"),
+      }
+
+      dashboard.config.opts.noautocmd = true
+      alpha.setup(dashboard.config)
+    '';
+  };
+}
+

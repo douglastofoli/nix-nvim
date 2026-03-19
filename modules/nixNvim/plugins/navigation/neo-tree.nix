@@ -3,7 +3,8 @@
   flake.nixNvimModules.plugins.navigation.neo-tree = {
     imports = [ config.flake.nixNvimModules.plugin ];
 
-    enable = true;
+    # Replaced by oil.nvim (file explorer).
+    enable = false;
 
     pluginNames = [
       "nui-nvim"
