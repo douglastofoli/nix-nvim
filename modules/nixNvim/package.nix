@@ -76,6 +76,10 @@ in
           '';
     in
     mkIf cfg.enable {
+      checks.smoke-test = pkgs.runCommand "nvim-smoke-test" { buildInputs = [ neovim ]; } ''
+        HOME=$(mktemp -d) nvim --headless -c "lua assert(true, 'init ok')" -c "qa" && touch $out
+      '';
+
       packages.${cfg.packageName} = neovim;
       packages.default = neovim;
 

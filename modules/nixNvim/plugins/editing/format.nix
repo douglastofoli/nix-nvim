@@ -30,12 +30,23 @@
         },
       })
 
-      vim.keymap.set({ "n", "v" }, "<leader>f", function()
-        require("conform").format({
-          async = true,
-          lsp_format = "fallback",
-        })
-      end)
     '';
+
+    keymaps = {
+      nnoremap = [
+        {
+          lhs = "<leader>cf";
+          rhsLua = "function() require('conform').format({ async = true, lsp_format = 'fallback' }) end";
+          opts = { desc = "Format buffer"; };
+        }
+      ];
+      vnoremap = [
+        {
+          lhs = "<leader>cf";
+          rhsLua = "function() require('conform').format({ async = true, lsp_format = 'fallback' }) end";
+          opts = { desc = "Format selection"; };
+        }
+      ];
+    };
   };
 }

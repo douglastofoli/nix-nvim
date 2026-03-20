@@ -126,8 +126,10 @@ The option `extraLua` exists but is not used when building init; use plugin modu
             │   ├── comment.nix   (kommentary)
             │   └── format.nix
             ├── git/
-            │   └── gitsigns.nix
+            │   ├── gitsigns.nix
+            │   └── neogit.nix   (neogit + diffview)
             ├── language/
+            │   ├── neotest.nix  (neotest + neotest-elixir)
             │   └── treesitter.nix
             ├── languages/
             │   └── elixir.nix
@@ -137,13 +139,19 @@ The option `extraLua` exists but is not used when building init; use plugin modu
             │   ├── autocmd.nix
             │   └── notify.nix
             ├── navigation/
+            │   ├── flash.nix
             │   ├── neo-tree.nix
+            │   ├── oil.nix
+            │   ├── project.nix
             │   ├── telescope.nix
             │   └── which-key.nix
             └── ui/
+                ├── fidget.nix
                 ├── indent-blankline.nix
                 ├── lualine.nix
-                ├── theme.nix    (dracula)
+                ├── theme.nix         (dracula)
+                ├── todo-comments.nix
+                ├── trouble.nix
                 └── web-devicons.nix
 ```
 
@@ -199,11 +207,34 @@ Plugin modules set `flake.nixNvimModules.plugins.<category>.<name>` with `plugin
 
 3. No need to register the file; `import-tree` picks it up and the aggregator will include it when `enable` is true.
 
+## Smoke test
+
+A headless check is defined in `package.nix` that builds the full Neovim derivation and runs it non-interactively to verify the init Lua doesn't crash:
+
+```bash
+nix build .#checks.x86_64-linux.smoke-test
+```
+
+The check runs:
+
+```bash
+HOME=$(mktemp -d) nvim --headless -c "lua assert(true, 'init ok')" -c "qa"
+```
+
+A fresh `$HOME` is used so no user config interferes. The derivation succeeds if `nvim` exits with code 0, and fails (with Lua errors printed to stderr) if anything in the init chain throws. You can also run all checks — including the smoke test — with:
+
+```bash
+nix flake check
+```
+
+This is useful in CI to catch broken plugin setups or Lua errors introduced by new modules, without needing a graphical environment.
+
 ## Flake outputs
 
 - **packages.***system*.**neovim** / **default** – Neovim derivation
 - **apps.***system*.**neovim** / **default** – Run Neovim
 - **devShells.***system*.**default** – Shell with `neovim` and runtime deps on PATH
+- **checks.***system*.**smoke-test** – Headless init smoke test
 - **overlays.default** – Nixpkgs overlay (use in NixOS as above)
 
 ## Why `nixNvimModules` instead of `flake.modules.nixNvim`?

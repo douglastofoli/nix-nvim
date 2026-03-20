@@ -36,13 +36,41 @@
       vim.lsp.enable("lua_ls")
       vim.lsp.enable("nil_ls")
       vim.lsp.enable("expert")
-
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Definition" })
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Declaration" })
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
     '';
+
+    keymaps = {
+      nnoremap = [
+        {
+          lhs = "gd";
+          rhsLua = "vim.lsp.buf.definition";
+          opts = { desc = "Definition"; };
+        }
+        {
+          lhs = "gD";
+          rhsLua = "vim.lsp.buf.declaration";
+          opts = { desc = "Declaration"; };
+        }
+        {
+          lhs = "gi";
+          rhsLua = "vim.lsp.buf.implementation";
+          opts = { desc = "Implementation"; };
+        }
+        {
+          lhs = "K";
+          rhsLua = "vim.lsp.buf.hover";
+          opts = { desc = "Hover docs"; };
+        }
+        {
+          lhs = "[d";
+          rhsLua = "vim.diagnostic.goto_prev";
+          opts = { desc = "Prev diagnostic"; };
+        }
+        {
+          lhs = "]d";
+          rhsLua = "vim.diagnostic.goto_next";
+          opts = { desc = "Next diagnostic"; };
+        }
+      ];
+    };
   };
 }
