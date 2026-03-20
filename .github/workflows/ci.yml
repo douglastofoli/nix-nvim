@@ -7,7 +7,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# PRs from forks: secrets are unavailable; keep job usable without Cachix token.
 permissions:
   contents: read
 
@@ -26,15 +25,8 @@ jobs:
             experimental-features = nix-command flakes
             max-jobs = auto
             cores = 0
-            substituters = https://nix-nvim.cachix.org https://cache.nixos.org/
-            trusted-public-keys = nix-nvim.cachix.org-1:gExRLMoVJqXRoSqJsWq9/PgmEykg2EIzMT3YkldlLuc= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
-
-      - uses: cachix/cachix-action@v15
-        if: ${{ github.event_name != 'pull_request' }}
-        with:
-          name: nix-nvim
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          skipPush: ${{ github.event_name == 'pull_request' }}
+            substituters = https://cache.nixos.org/ https://nix-community.cachix.org
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
 
       # One invocation: builds packages + runs all flake checks (avoid triple Neovim build).
       - name: Flake check
