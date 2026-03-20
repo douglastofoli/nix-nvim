@@ -26,7 +26,6 @@ jobs:
             substituters = https://cache.nixos.org/ https://nix-community.cachix.org
             trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
 
-      # Push para o Cachix só em push na main (não em PR). Requer secret CACHIX_AUTH_TOKEN no repo.
       - uses: cachix/cachix-action@v15
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         with:
