@@ -7,9 +7,14 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# PRs from forks: secrets are unavailable; keep job usable without Cachix token.
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -19,23 +24,36 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
           extra_nix_config: |
             experimental-features = nix-command flakes
-            substituters = https://cache.nixos.org/
-            trusted-public-keys = nix-nvim.cachix.org-1:gExRLMoVJqXRoSqJsWq9/PgmEykg2EIzMT3YkldlLuc=
+            max-jobs = auto
+            cores = 0
+            substituters = https://nix-nvim.cachix.org https://cache.nixos.org/
+            trusted-public-keys = nix-nvim.cachix.org-1:gExRLMoVJqXRoSqJsWq9/PgmEykg2EIzMT3YkldlLuc= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
 
       - uses: cachix/cachix-action@v15
-        if: ${{ secrets.CACHIX_AUTH_TOKEN != '' }}
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           name: nix-nvim
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           skipPush: ${{ github.event_name == 'pull_request' }}
 
-      - name: Check flake
+      # One invocation: builds packages + runs all flake checks (avoid triple Neovim build).
+      - name: Flake check
         run: nix flake check --print-build-logs
 
-      - name: Build package
-        run: nix build .#neovim
+      # Pure eval: same Neovim as the flake (no import <nixpkgs> / channel download).
+      - name: Verify package name
+        run: nix eval --raw '.#packages.x86_64-linux.neovim.name'
 
-      - name: Test overlay functionality
+      # Overlay uses flake-locked nixpkgs — not <nixpkgs> from the channel.
+      - name: Verify overlay against locked nixpkgs
         run: |
-          nix eval --raw '.#packages.x86_64-linux.neovim.name'
-          nix eval --impure --expr 'let pkgs = import <nixpkgs> { overlays = [ (import ./overlay.nix (builtins.getFlake (toString ./.))) ]; system = "x86_64-linux"; }; in pkgs.neovim.name'
+          nix eval --impure --raw --expr '
+            let
+              flake = builtins.getFlake (toString ./.);
+              pkgs = import flake.inputs.nixpkgs {
+                system = "x86_64-linux";
+                overlays = [ flake.overlays.default ];
+              };
+            in
+              pkgs.neovim.name
+          '
