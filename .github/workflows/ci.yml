@@ -2,28 +2,40 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
+    branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  id-token: write
-
 jobs:
-  flake-check:
-    name: Nix flake checks
+  check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
+      - uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            substituters = https://cache.nixos.org/
+            trusted-public-keys = nix-nvim.cachix.org-1:gExRLMoVJqXRoSqJsWq9/PgmEykg2EIzMT3YkldlLuc=
 
-      - name: Configure Nix cache
-        uses: DeterminateSystems/magic-nix-cache-action@v8
+      - uses: cachix/cachix-action@v15
+        if: ${{ secrets.CACHIX_AUTH_TOKEN != '' }}
+        with:
+          name: nix-nvim
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          skipPush: ${{ github.event_name == 'pull_request' }}
 
-      - name: Run flake checks
+      - name: Check flake
         run: nix flake check --print-build-logs
+
+      - name: Build package
+        run: nix build .#neovim
+
+      - name: Test overlay functionality
+        run: |
+          nix eval --raw '.#packages.x86_64-linux.neovim.name'
+          nix eval --impure --expr 'let pkgs = import <nixpkgs> { overlays = [ (import ./overlay.nix (builtins.getFlake (toString ./.))) ]; system = "x86_64-linux"; }; in pkgs.neovim.name'
