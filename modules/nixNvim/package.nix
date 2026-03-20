@@ -117,7 +117,7 @@ in {
           ./modules/nixNvim/plugins/navigation/which-key.nix \
           ./modules/nixNvim/plugins/debug/dap.nix \
           ./modules/nixNvim/package.nix
-        statix check ./modules/nixNvim || true
+        statix check ./modules/nixNvim
         touch $out
       '';
       checks.deadnix = pkgs.runCommand "nix-deadnix-check" {buildInputs = [pkgs.deadnix];} ''
