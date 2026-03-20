@@ -1,11 +1,10 @@
-{ config, ... }:
-{
+{config, ...}: {
   flake.nixNvimModules.plugins.navigation.which-key = {
-    imports = [ config.flake.nixNvimModules.plugin ];
+    imports = [config.flake.nixNvimModules.plugin];
 
     enable = true;
 
-    pluginNames = [ "which-key-nvim" ];
+    pluginNames = ["which-key-nvim"];
 
     keymaps = {
       whichKeyGroups = [
@@ -16,6 +15,10 @@
         {
           prefix = "<leader>c";
           group = "code";
+        }
+        {
+          prefix = "<leader>d";
+          group = "debug";
         }
         {
           prefix = "<leader>f";
@@ -61,7 +64,7 @@
         }
         {
           lhs = "<leader>fe";
-          rhsLua = "function() require('oil').open() end";
+          rhsLua = "function() local oil = NixNvim.safe_require('oil'); if oil then oil.open() end end";
           opts = {
             desc = "File explorer";
           };
@@ -75,7 +78,7 @@
         }
         {
           lhs = "<leader>fE";
-          rhsLua = "function() require('oil').toggle_float() end";
+          rhsLua = "function() local oil = NixNvim.safe_require('oil'); if oil then oil.toggle_float() end end";
           opts = {
             desc = "Focus file explorer";
           };
@@ -84,70 +87,70 @@
         # Git (g = group; gitsigns: n/p hunk nav, h preview, S stage, u undo, b blame, d diff, R reset)
         {
           lhs = "<leader>gs";
-          rhsLua = "function() require('oil').toggle_float() end";
+          rhsLua = "function() local oil = NixNvim.safe_require('oil'); if oil then oil.toggle_float() end end";
           opts = {
             desc = "File explorer (float)";
           };
         }
         {
           lhs = "<leader>ge";
-          rhsLua = "function() require('oil').open() end";
+          rhsLua = "function() local oil = NixNvim.safe_require('oil'); if oil then oil.open() end end";
           opts = {
             desc = "Reveal in oil";
           };
         }
         {
           lhs = "<leader>gn";
-          rhsLua = "function() require('gitsigns').next_hunk() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.next_hunk() end end";
           opts = {
             desc = "Next hunk";
           };
         }
         {
           lhs = "<leader>gp";
-          rhsLua = "function() require('gitsigns').prev_hunk() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.prev_hunk() end end";
           opts = {
             desc = "Prev hunk";
           };
         }
         {
           lhs = "<leader>gh";
-          rhsLua = "function() require('gitsigns').preview_hunk_inline() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.preview_hunk_inline() end end";
           opts = {
             desc = "Preview hunk";
           };
         }
         {
           lhs = "<leader>gS";
-          rhsLua = "function() require('gitsigns').stage_hunk() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.stage_hunk() end end";
           opts = {
             desc = "Stage hunk";
           };
         }
         {
           lhs = "<leader>gu";
-          rhsLua = "function() require('gitsigns').undo_stage_hunk() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.undo_stage_hunk() end end";
           opts = {
             desc = "Undo stage hunk";
           };
         }
         {
           lhs = "<leader>gb";
-          rhsLua = "function() require('gitsigns').toggle_current_line_blame() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.toggle_current_line_blame() end end";
           opts = {
             desc = "Blame line";
           };
         }
         {
           lhs = "<leader>gd";
-          rhsLua = "function() require('gitsigns').diffthis() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.diffthis() end end";
           opts = {
             desc = "Diff this file";
           };
         }
         {
           lhs = "<leader>gR";
-          rhsLua = "function() require('gitsigns').reset_hunk() end";
+          rhsLua = "function() local gs = NixNvim.safe_require('gitsigns'); if gs then gs.reset_hunk() end end";
           opts = {
             desc = "Reset hunk";
           };

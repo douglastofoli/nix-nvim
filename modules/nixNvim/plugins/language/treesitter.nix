@@ -1,7 +1,6 @@
-{ config, ... }:
-{
+{config, ...}: {
   flake.nixNvimModules.plugins.language.treesitter = {
-    imports = [ config.flake.nixNvimModules.plugin ];
+    imports = [config.flake.nixNvimModules.plugin];
 
     enable = true;
 
@@ -23,5 +22,33 @@
         max_lines = 0,
       })
     '';
+  };
+
+  flake.nixNvim.treesitter = {
+    withAllGrammars = false;
+    grammars = [
+      "bash"
+      "css"
+      "dockerfile"
+      "elixir"
+      "eex"
+      "heex"
+      "html"
+      "javascript"
+      "json"
+      "lua"
+      "markdown"
+      "markdown_inline"
+      "nix"
+      "python"
+      "query"
+      "regex"
+      "toml"
+      "tsx"
+      "typescript"
+      "vim"
+      "vimdoc"
+      "yaml"
+    ];
   };
 }

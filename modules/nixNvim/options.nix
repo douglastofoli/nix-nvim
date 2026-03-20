@@ -1,13 +1,11 @@
-{ lib, ... }:
-let
+{lib, ...}: let
   inherit (lib) mkOption types;
-  keymapsSubmodule = (import ../../lib/keymaps-type.nix { inherit lib; }).keymapsSubmodule;
-in
-{
+  keymapsSubmodule = (import ../../lib/keymaps-type.nix {inherit lib;}).keymapsSubmodule;
+in {
   # Dendritic pattern: flake.nixNvimModules.base, .plugin, .plugins.<name>
   options.flake.nixNvimModules = mkOption {
     type = types.attrsOf types.anything;
-    default = { };
+    default = {};
     description = "nixNvim modules (base, plugin, plugins.lsp, etc.).";
   };
 
@@ -26,26 +24,45 @@ in
 
         plugins = mkOption {
           type = types.listOf types.package;
-          default = [ ];
+          default = [];
           description = "Plugin packages (can be filled by package.nix from pluginNames).";
         };
 
         pluginNames = mkOption {
           type = types.listOf types.str;
-          default = [ ];
+          default = [];
           description = "Vim plugin names (e.g. nvim-lspconfig) resolved via pkgs.vimPlugins.";
         };
 
         extraPackages = mkOption {
           type = types.listOf types.package;
-          default = [ ];
+          default = [];
           description = "Extra packages on PATH (can be filled by package.nix from extraPackageNames).";
         };
 
         extraPackageNames = mkOption {
           type = types.listOf types.str;
-          default = [ ];
+          default = [];
           description = "Extra package names (e.g. lua-language-server) resolved via pkgs.";
+        };
+
+        treesitter = mkOption {
+          type = types.submodule {
+            options = {
+              withAllGrammars = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Use nvim-treesitter.withAllGrammars when nvim-treesitter is enabled.";
+              };
+              grammars = mkOption {
+                type = types.listOf types.str;
+                default = [];
+                description = "Treesitter parser attribute names to include when withAllGrammars = false.";
+              };
+            };
+          };
+          default = {};
+          description = "Treesitter package resolution strategy.";
         };
 
         baseLua = mkOption {
@@ -87,7 +104,7 @@ in
 
         keymaps = mkOption {
           type = keymapsSubmodule;
-          default = { };
+          default = {};
           description = "Global keymaps (nnoremap, inoremap, etc.). Compatible with which-key when opts.desc is set.";
         };
 
@@ -118,6 +135,6 @@ in
       };
     };
 
-    default = { };
+    default = {};
   };
 }
