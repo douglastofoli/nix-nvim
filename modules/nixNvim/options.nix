@@ -1,6 +1,6 @@
 {lib, ...}: let
   inherit (lib) mkOption types;
-  keymapsSubmodule = (import ../../lib/keymaps-type.nix {inherit lib;}).keymapsSubmodule;
+  inherit (import ../../lib/keymaps-type.nix {inherit lib;}) keymapsSubmodule;
 in {
   # Dendritic pattern: flake.nixNvimModules.base, .plugin, .plugins.<name>
   options.flake.nixNvimModules = mkOption {

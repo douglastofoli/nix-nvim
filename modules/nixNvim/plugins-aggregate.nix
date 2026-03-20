@@ -16,9 +16,11 @@
   enabledPlugins = pluginsLib.enabledPlugins pluginConfigs;
 in {
   config = {
-    flake.nixNvim.pluginNames = concatLists (map (p: p.pluginNames or []) enabledPlugins);
-    flake.nixNvim.extraPackageNames = concatLists (map (p: p.extraPackageNames or []) enabledPlugins);
-    flake.nixNvim.extraLuaPlugins = concatStringsSep "\n" (map (p: p.extraLua or "") enabledPlugins);
-    flake.nixNvim.extraVim = concatStringsSep "\n" (map (p: p.extraVim or "") enabledPlugins);
+    flake.nixNvim = {
+      pluginNames = concatLists (map (p: p.pluginNames or []) enabledPlugins);
+      extraPackageNames = concatLists (map (p: p.extraPackageNames or []) enabledPlugins);
+      extraLuaPlugins = concatStringsSep "\n" (map (p: p.extraLua or "") enabledPlugins);
+      extraVim = concatStringsSep "\n" (map (p: p.extraVim or "") enabledPlugins);
+    };
   };
 }

@@ -14,7 +14,7 @@
     ;
   keymapsType = import ../../lib/keymaps-type.nix {inherit lib;};
   pluginsLib = import ../../lib/plugins.nix {inherit lib;};
-  sections = keymapsType.sections;
+  inherit (keymapsType) sections;
 
   # Section name -> { mode, noremap }
   sectionMode = {
@@ -146,7 +146,7 @@
       if (km.rhsLua or null) != null && km.rhsLua != ""
       then km.rhsLua
       else "\"" + escapeLuaStr km.rhs + "\"";
-    optsStr = optsToLua (km.opts // {noremap = km.noremap;});
+    optsStr = optsToLua (km.opts // {inherit (km) noremap;});
   in "vim.keymap.set(${modeStr}, ${lhsStr}, ${rhsArg}, ${optsStr})";
 
   whichKeyGroupsLua =
