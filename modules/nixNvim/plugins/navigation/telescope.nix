@@ -1,7 +1,6 @@
-{ config, ... }:
-{
+{config, ...}: {
   flake.nixNvimModules.plugins.navigation.telescope = {
-    imports = [ config.flake.nixNvimModules.plugin ];
+    imports = [config.flake.nixNvimModules.plugin];
 
     enable = true;
 
@@ -16,8 +15,11 @@
     ];
 
     extraLua = ''
-      require("telescope").setup({})
-      require("telescope").load_extension("projects")
+      local telescope = NixNvim.safe_require("telescope")
+      if telescope then
+        telescope.setup({})
+        pcall(telescope.load_extension, "projects")
+      end
     '';
   };
 }

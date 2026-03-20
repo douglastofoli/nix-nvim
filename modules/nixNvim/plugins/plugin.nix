@@ -2,11 +2,9 @@
 # Import with: imports = [ config.flake.nixNvimModules.plugin ];
 # Uses pluginNames/extraPackageNames (strings) so the flake does not depend on pkgs.
 # Keymaps type is shared with options.nix (see keymaps-type.nix).
-{ lib, ... }:
-let
-  keymapsSubmodule = (import ../../../lib/keymaps-type.nix { inherit lib; }).keymapsSubmodule;
-in
-{
+{lib, ...}: let
+  inherit (import ../../../lib/keymaps-type.nix {inherit lib;}) keymapsSubmodule;
+in {
   flake.nixNvimModules.plugin = {
     options = {
       enable = lib.mkOption {
@@ -16,11 +14,11 @@ in
       };
       pluginNames = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [ ];
+        default = [];
       };
       extraPackageNames = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [ ];
+        default = [];
       };
       extraLua = lib.mkOption {
         type = lib.types.lines;
@@ -32,7 +30,7 @@ in
       };
       keymaps = lib.mkOption {
         type = keymapsSubmodule;
-        default = { };
+        default = {};
         description = "Keymaps for this plugin (nnoremap, inoremap, etc.). Compatible with which-key when opts.desc is set.";
       };
     };

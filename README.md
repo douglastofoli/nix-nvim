@@ -171,6 +171,8 @@ Under `config.flake.nixNvim` (or the option `flake.nixNvim`):
 | `pluginNames` | listOf string | `[]` | Vim plugin names (e.g. `nvim-lspconfig`) resolved with `pkgs.vimPlugins`. |
 | `extraPackages` | listOf package | `[]` | Extra packages on PATH. |
 | `extraPackageNames` | listOf string | `[]` | Extra package names (e.g. `lua-language-server`) resolved with `pkgs`. |
+| `treesitter.withAllGrammars` | bool | `true` | Use `nvim-treesitter.withAllGrammars` when treesitter is enabled. |
+| `treesitter.grammars` | listOf string | `[]` | Parser attr names used when `withAllGrammars = false`. |
 | `baseLua` | lines | `""` | Lua run first (leader, options). Set by base.nix. |
 | `extraLua` | lines | `""` | Not used in init assembly; use plugin modules or baseLua/extraLuaAutocmds. |
 | `extraLuaPlugins` | lines | (internal) | Lua from plugins; set by plugins-aggregate. |
@@ -229,13 +231,46 @@ nix flake check
 
 This is useful in CI to catch broken plugin setups or Lua errors introduced by new modules, without needing a graphical environment.
 
+## Additional checks
+
+The flake also exposes:
+
+- `checks.<system>.health-check` (runs `:checkhealth` headlessly)
+- `checks.<system>.deadnix` (dead code detection for Nix files)
+- `checks.<system>.statix` (Nix anti-pattern linting)
+- `checks.<system>.formatting` (Alejandra formatting check)
+
+Run all checks with:
+
+```bash
+nix flake check
+```
+
+For local iteration:
+
+```bash
+nix build .#checks.x86_64-linux.deadnix
+nix build .#checks.x86_64-linux.statix
+nix build .#checks.x86_64-linux.formatting
+```
+
 ## Flake outputs
 
 - **packages.***system*.**neovim** / **default** – Neovim derivation
 - **apps.***system*.**neovim** / **default** – Run Neovim
 - **devShells.***system*.**default** – Shell with `neovim` and runtime deps on PATH
 - **checks.***system*.**smoke-test** – Headless init smoke test
+- **checks.***system*.**health-check** – Headless `:checkhealth`
+- **checks.***system*.**deadnix** / **statix** / **formatting** – Nix quality gates
 - **overlays.default** – Nixpkgs overlay (use in NixOS as above)
+
+## Contributor workflow
+
+- Validate startup quickly: `nix build .#checks.x86_64-linux.smoke-test`
+- Validate runtime health: `nix build .#checks.x86_64-linux.health-check`
+- Validate Nix quality: `nix flake check`
+- Debug startup regressions: `nix run .#neovim -- --headless "+messages" +qa`
+- Profile startup locally: `nix run .#neovim -- --startuptime startup.log +qa`
 
 ## Why `nixNvimModules` instead of `flake.modules.nixNvim`?
 
