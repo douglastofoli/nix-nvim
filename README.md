@@ -275,7 +275,3 @@ nix build .#checks.x86_64-linux.formatting
 ## Why `nixNvimModules` instead of `flake.modules.nixNvim`?
 
 `flake.modules` is reserved by flake-parts for the list of NixOS modules that configure the flake. To avoid a clash, this flake uses **flake.nixNvimModules** for the dendritic module tree (base, plugin, plugins.*). The main config remains **flake.nixNvim**.
-
-## License
-
-See repository or specify your license here.
