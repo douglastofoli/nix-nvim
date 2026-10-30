@@ -101,8 +101,12 @@ in {
     mkIf cfg.enable {
       checks = {
         smoke-test = pkgs.runCommand "nvim-smoke-test" {buildInputs = [neovim];} ''
-          HOME=$(mktemp -d) nvim --headless -c "lua assert(true, 'init ok')" -c "qa" && touch $out
+          export HOME=$(mktemp -d)
+          export NIX_NVIM_SMOKE_PLUGINS=${lib.escapeShellArg (builtins.toJSON cfg.pluginNames)}
+          nvim --headless -c "lua dofile('${./smoke-test.lua}')"
+          touch $out
         '';
+        # Diagnostic only: providers may be unavailable in the build sandbox.
         health-check = pkgs.runCommand "nvim-health-check" {buildInputs = [neovim];} ''
           HOME=$(mktemp -d) nvim --headless -c "silent! checkhealth" -c "qa" || true
           touch $out
@@ -138,7 +142,7 @@ in {
         '';
         statix = pkgs.runCommand "nix-statix-check" {buildInputs = [pkgs.statix];} ''
           cd ${../../.}
-          statix check ./modules/nixNvim || true
+          statix check ./modules/nixNvim
           touch $out
         '';
         formatting = pkgs.runCommand "nix-format-check" {buildInputs = [pkgs.alejandra];} ''
