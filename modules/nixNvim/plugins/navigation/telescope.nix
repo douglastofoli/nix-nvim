@@ -15,7 +15,7 @@
     ];
 
     extraLua = ''
-      local telescope = NixNvim.safe_require("telescope")
+      local telescope = NixNvim.require_plugin("telescope")
       if telescope then
         telescope.setup({})
         pcall(telescope.load_extension, "projects")

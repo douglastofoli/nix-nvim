@@ -297,3 +297,13 @@ to the umbrella root. BEAM files need debug information. NIF modules cannot
 be interpreted. Phoenix requires a dedicated `phx.server` configuration with
 `exitAfterTaskReturns = false` and selective module interpretation; the supplied
 configuration is for tests. Review `:DapShowLog` if startup fails.
+
+## Plugin loading failures
+
+Enabled Telescope and DAP components are required during initialization:
+`NixNvim.require_plugin` raises an error with the module name and original cause.
+Their setup errors also propagate. Disabling the owning plugin module still
+omits its initialization. Cross-plugin keybindings use `NixNvim.safe_require`
+because their target can be disabled independently; failures produce a scheduled
+warning rather than silently doing nothing. Optional Telescope extensions remain
+best-effort. Inspect `:messages`, check `pluginNames`, then rebuild the package.

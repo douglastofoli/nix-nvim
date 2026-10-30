@@ -44,7 +44,17 @@ in {
         if ok then
           return mod
         end
+        vim.schedule(function()
+          vim.notify("nix-nvim: optional module '" .. name .. "' unavailable: " .. tostring(mod), vim.log.levels.WARN)
+        end)
         return nil
+      end
+      function _G.NixNvim.require_plugin(name)
+        local ok, mod = pcall(require, name)
+        if not ok then
+          error("nix-nvim: required module '" .. name .. "' failed to load. Check its pluginNames entry and rebuild.\n" .. tostring(mod))
+        end
+        return mod
       end
     '';
 
