@@ -11,7 +11,13 @@
       "nvim-nio"
     ];
 
+    extraPackageNames = ["elixir-ls"];
+
     extraLua = ''
+      -- Resolve through the Nix wrapper's runtime PATH; no adapter downloads.
+      local adapter = vim.fn.exepath("elixir-debug-adapter")
+      assert(adapter ~= "", "nix-nvim: elixir-debug-adapter missing; rebuild with elixir-ls")
+
       local dap = NixNvim.require_plugin("dap")
       local dapui = NixNvim.require_plugin("dapui")
       local dap_virtual_text = NixNvim.require_plugin("nvim-dap-virtual-text")
@@ -22,6 +28,30 @@
 
       if dap_virtual_text then
         dap_virtual_text.setup({})
+      end
+
+      if dap then
+        dap.adapters.mix_task = {
+          type = "executable",
+          command = adapter,
+          args = {},
+        }
+        dap.configurations.elixir = {
+          {
+            type = "mix_task",
+            name = "mix test",
+            request = "launch",
+            task = "test",
+            taskArgs = { "--trace" },
+            startApps = true,
+            projectDir = function()
+              local root = vim.fs.root(0, "mix.exs")
+              assert(root, "nix-nvim: open a file inside a Mix project before debugging")
+              return root
+            end,
+            requireFiles = { "test/**/test_helper.exs", "test/**/*_test.exs" },
+          },
+        }
       end
 
       if dap and dapui then
