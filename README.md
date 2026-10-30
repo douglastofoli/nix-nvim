@@ -285,3 +285,34 @@ precedence over ambient PATH entries. No separate Expert installation is needed.
 Project Elixir/OTP and Mix dependencies must still be available in the project's
 development environment. Override the locked package through a nixpkgs overlay
 when a project requires a different Expert version.
+## Elixir debugging
+
+The locked Nix `elixir-ls` package provides `elixir-debug-adapter` (ElixirLS
+0.30.0). Only its DAP server is started; Expert remains the Elixir LSP.
+Launch Neovim inside your project's development shell, with a compatible
+Elixir/OTP pair and fetched Mix dependencies (`mix deps.get`). ElixirLS 0.30
+supports Elixir 1.19 on OTP 26–28; consult its support matrix for older versions.
+
+Open an `.ex` file within a Mix project, set a breakpoint with `<leader>db`,
+and press `<leader>dc`, selecting `mix test`. The nearest `mix.exs` supplies
+`projectDir`; tests and test helpers are loaded for interpretation. Use
+`<leader>di` / `<leader>do` / `<leader>dO` to step, `<leader>dr` for the REPL,
+and `<leader>du` for the UI. The UI opens on launch and closes when the session
+ends. `:lua require('dap').terminate()` stops a session.
+
+For a single test, customize `taskArgs` and `requireFiles` together in
+`require('dap').configurations.elixir`; for umbrella tests, set `projectDir`
+to the umbrella root. BEAM files need debug information. NIF modules cannot
+be interpreted. Phoenix requires a dedicated `phx.server` configuration with
+`exitAfterTaskReturns = false` and selective module interpretation; the supplied
+configuration is for tests. Review `:DapShowLog` if startup fails.
+
+## Plugin loading failures
+
+Enabled Telescope and DAP components are required during initialization:
+`NixNvim.require_plugin` raises an error with the module name and original cause.
+Their setup errors also propagate. Disabling the owning plugin module still
+omits its initialization. Cross-plugin keybindings use `NixNvim.safe_require`
+because their target can be disabled independently; failures produce a scheduled
+warning rather than silently doing nothing. Optional Telescope extensions remain
+best-effort. Inspect `:messages`, check `pluginNames`, then rebuild the package.
