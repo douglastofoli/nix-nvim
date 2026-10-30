@@ -275,3 +275,25 @@ nix build .#checks.x86_64-linux.formatting
 ## Why `nixNvimModules` instead of `flake.modules.nixNvim`?
 
 `flake.modules` is reserved by flake-parts for the list of NixOS modules that configure the flake. To avoid a clash, this flake uses **flake.nixNvimModules** for the dendritic module tree (base, plugin, plugins.*). The main config remains **flake.nixNvim**.
+
+## Elixir debugging
+
+The locked Nix `elixir-ls` package provides `elixir-debug-adapter` (ElixirLS
+0.30.0). Only its DAP server is started; Expert remains the Elixir LSP.
+Launch Neovim inside your project's development shell, with a compatible
+Elixir/OTP pair and fetched Mix dependencies (`mix deps.get`). ElixirLS 0.30
+supports Elixir 1.19 on OTP 26–28; consult its support matrix for older versions.
+
+Open an `.ex` file within a Mix project, set a breakpoint with `<leader>db`,
+and press `<leader>dc`, selecting `mix test`. The nearest `mix.exs` supplies
+`projectDir`; tests and test helpers are loaded for interpretation. Use
+`<leader>di` / `<leader>do` / `<leader>dO` to step, `<leader>dr` for the REPL,
+and `<leader>du` for the UI. The UI opens on launch and closes when the session
+ends. `:lua require('dap').terminate()` stops a session.
+
+For a single test, customize `taskArgs` and `requireFiles` together in
+`require('dap').configurations.elixir`; for umbrella tests, set `projectDir`
+to the umbrella root. BEAM files need debug information. NIF modules cannot
+be interpreted. Phoenix requires a dedicated `phx.server` configuration with
+`exitAfterTaskReturns = false` and selective module interpretation; the supplied
+configuration is for tests. Review `:DapShowLog` if startup fails.
