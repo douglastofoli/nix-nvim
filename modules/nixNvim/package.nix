@@ -100,10 +100,12 @@ in {
   in
     mkIf cfg.enable {
       checks = {
-        smoke-test = pkgs.runCommand "nvim-smoke-test" {buildInputs = [neovim];} ''
+        smoke-test = pkgs.runCommand "nvim-smoke-test" {buildInputs = [neovim pkgs.git];} ''
           export HOME=$(mktemp -d)
           export NIX_NVIM_SMOKE_PLUGINS=${lib.escapeShellArg (builtins.toJSON cfg.pluginNames)}
-          nvim --headless -c "lua dofile('${./smoke-test.lua}')"
+          # project.nvim creates its history directory non-recursively.
+          nvim --headless --cmd "lua vim.fn.mkdir(vim.fn.stdpath('data'), 'p')" \
+            -c "lua dofile('${./smoke-test.lua}')"
           touch $out
         '';
         # Diagnostic only: providers may be unavailable in the build sandbox.
