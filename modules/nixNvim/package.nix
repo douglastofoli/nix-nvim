@@ -33,9 +33,7 @@ in {
       )
       cfg.pluginNames;
 
-    runtimeDeps = map (
-      name: lib.attrByPath (lib.splitString "." name) (throw "Unknown runtime package: ${name}") pkgs
-    ) cfg.extraPackageNames;
+    runtimeDeps = map (name: lib.getAttrFromPath (lib.splitString "." name) pkgs) cfg.extraPackageNames;
     extraPath = lib.makeBinPath (runtimeDeps ++ cfg.extraPackages);
 
     # Init Lua order: base → plugins → keymaps → autocmds
