@@ -46,7 +46,7 @@
         }
         {
           lhs = "<leader>td";
-          rhsLua = "function() if vim.diagnostic.is_disabled(0) then vim.diagnostic.enable(0) else vim.diagnostic.disable(0) end end";
+          rhsLua = "function() local filter = { bufnr = 0 }; vim.diagnostic.enable(not vim.diagnostic.is_enabled(filter), filter) end";
           opts = {
             desc = "Toggle diagnostics";
           };
