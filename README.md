@@ -275,3 +275,13 @@ nix build .#checks.x86_64-linux.formatting
 ## Why `nixNvimModules` instead of `flake.modules.nixNvim`?
 
 `flake.modules` is reserved by flake-parts for the list of NixOS modules that configure the flake. To avoid a clash, this flake uses **flake.nixNvimModules** for the dendritic module tree (base, plugin, plugins.*). The main config remains **flake.nixNvim**.
+
+## Plugin loading failures
+
+Enabled Telescope and DAP components are required during initialization:
+`NixNvim.require_plugin` raises an error with the module name and original cause.
+Their setup errors also propagate. Disabling the owning plugin module still
+omits its initialization. Cross-plugin keybindings use `NixNvim.safe_require`
+because their target can be disabled independently; failures produce a scheduled
+warning rather than silently doing nothing. Optional Telescope extensions remain
+best-effort. Inspect `:messages`, check `pluginNames`, then rebuild the package.
