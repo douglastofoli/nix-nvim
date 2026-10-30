@@ -33,7 +33,7 @@ in {
       )
       cfg.pluginNames;
 
-    runtimeDeps = map (name: getAttr name pkgs) cfg.extraPackageNames;
+    runtimeDeps = map (name: lib.getAttrFromPath (lib.splitString "." name) pkgs) cfg.extraPackageNames;
     extraPath = lib.makeBinPath (runtimeDeps ++ cfg.extraPackages);
 
     # Init Lua order: base → plugins → keymaps → autocmds
@@ -101,7 +101,7 @@ in {
         for f in ${neovim-base}/bin/*; do
           name=$(basename "$f")
           if [ "$name" = "nvim" ]; then
-            makeWrapper "$f" "$out/bin/nvim" --suffix PATH : "$extraPath"
+            makeWrapper "$f" "$out/bin/nvim" --prefix PATH : "$extraPath"
           else
             ln -s "$f" "$out/bin/$name"
           fi

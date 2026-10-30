@@ -26,10 +26,9 @@
       ];
     };
     expert = {
-      packageName = null;
+      packageName = "beamPackages.expert";
       cmd = [
         "expert"
-        "--stdio"
       ];
       filetypes = [
         "elixir"

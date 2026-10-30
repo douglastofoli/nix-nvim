@@ -276,6 +276,15 @@ nix build .#checks.x86_64-linux.formatting
 
 `flake.modules` is reserved by flake-parts for the list of NixOS modules that configure the flake. To avoid a clash, this flake uses **flake.nixNvimModules** for the dendritic module tree (base, plugin, plugins.*). The main config remains **flake.nixNvim**.
 
+## Expert language server
+
+Expert is provided by `beamPackages.expert` from the locked unstable nixpkgs
+(0.1.0-rc.5). Its Nix wrapper starts the server over stdio; it does not need
+the standalone binary's `--stdio` argument. Nix-managed runtime tools take
+precedence over ambient PATH entries. No separate Expert installation is needed.
+Project Elixir/OTP and Mix dependencies must still be available in the project's
+development environment. Override the locked package through a nixpkgs overlay
+when a project requires a different Expert version.
 ## Elixir debugging
 
 The locked Nix `elixir-ls` package provides `elixir-debug-adapter` (ElixirLS
