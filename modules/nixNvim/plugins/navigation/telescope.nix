@@ -17,7 +17,15 @@
     extraLua = ''
       local telescope = NixNvim.safe_require("telescope")
       if telescope then
-        telescope.setup({})
+        telescope.setup({
+          defaults = {
+            preview = {
+              -- Avoid the Tree-sitter preview path that errors on Neovim 0.12.
+              -- Telescope falls back to Vim syntax highlighting for previews.
+              treesitter = false,
+            },
+          },
+        })
         pcall(telescope.load_extension, "projects")
       end
     '';
