@@ -29,6 +29,7 @@
       packageName = "beamPackages.expert";
       cmd = [
         "expert"
+        "--stdio"
       ];
       filetypes = [
         "elixir"
